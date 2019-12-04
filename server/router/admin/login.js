@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-var dbmodel = require("../admin/login.js")
+var dbmodel = require("../../router/db.js")
 router.get("/",function (req,res) {
-    dbmodel.findMongo("student",{"score.shuxue":100},function(err,result){
+    dbmodel.findMongo("user",{},function(err,result){
         if(err){
             res.send("查询失败");
             result;
         }
+        console.log(result)
         res.send(result);
     })
     // res.send("登录页面")
