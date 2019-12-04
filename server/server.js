@@ -9,6 +9,6 @@ var server=express();
 const router  = require("./router/admin.js");
 server.use(router);
 //5.监听端口
-server.listen(8821,(req,res)=>{
-    console.log('Server running at http://127.0.0.1:8821/')
+server.listen(8823,(req,res)=>{
+    console.log('Server running at http://127.0.0.1:8823/')
 });
