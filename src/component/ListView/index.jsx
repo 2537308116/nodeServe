@@ -1,148 +1,79 @@
 import React from 'react';
 import { ListView } from 'antd-mobile';
-
-const data = [
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-    title: 'Meet hotel',
-    des: '不是所有的兼职汪都需要风吹日晒1',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-    title: 'McDonald\'s invites you',
-    des: '不是所有的兼职汪都需要风吹日晒2',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒3',
-  },
-];
-const NUM_ROWS = 20;
-let pageIndex = 0;
-
-function genData(pIndex = 0) {
-  const dataBlob = {};
-  for (let i = 0; i < NUM_ROWS; i++) {
-    const ii = (pIndex * NUM_ROWS) + i;
-    dataBlob[`${ii}`] = `row - ${ii}`;
-  }
-  console.log(dataBlob)
-  return dataBlob;
+import './index.less'
+// const {Component, PropTypes} = React
+// 虚拟数据
+const dataItem = {
+  img: 'https://qcdn.zhangzhongyun.com/covers/154201203238462962.jpg?imageView2/0/w/300/q/75',
+  title: 'Meet hotel',
+  des: '不是所有的兼职汪都需要风吹日晒',
 }
-
+const data = []
+for (let i = 0; i < 100; i++) {
+  dataItem.key = i
+  data.push(dataItem)
+}
 class Listview extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
-    });
+    })
     this.state = {
-      dataSource,
+      dataSource: dataSource.cloneWithRows({}),
       isLoading: true,
-    };
-  }
-
-  componentDidMount() {
-    // you can scroll to the specified position
-    // setTimeout(() => this.lv.scrollTo(0, 120), 800);
-
-    // simulate initial Ajax
-    setTimeout(() => {
-      this.rData = genData();
-      console.log(this.state.dataSource.cloneWithRows(this.rData))
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        isLoading: false,
-      });
-    }, 600);
-  }
-
-  // If you use redux, the data maybe at props, you need use `componentWillReceiveProps`
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.dataSource !== this.props.dataSource) {
-  //     this.setState({
-  //       dataSource: this.state.dataSource.cloneWithRows(nextProps.dataSource),
-  //     });
-  //   }
-  // }
-
-  onEndReached = (event) => {
-      console.log('触发')
-    // load new data
-    // hasMore: from backend data, indicates whether it is the last page, here is false
-    if (this.state.isLoading && !this.state.hasMore) {
-      return;
     }
-    console.log('reach end', event);
-    this.setState({ isLoading: true });
-    setTimeout(() => {
-      this.rData = { ...this.rData, ...genData(++pageIndex) };
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        isLoading: false,
-      });
-    }, 1000);
   }
-
-  render() {
-    const separator = (sectionID, rowID) => (
-      <div
-        key={`${sectionID}-${rowID}`}
-        style={{
-          backgroundColor: '#F5F5F9',
-          height: 8,
-          borderTop: '1px solid #ECECED',
-          borderBottom: '1px solid #ECECED',
-        }}
-      />
-    );
-    let index = data.length - 1;
-    const row = (rowData, sectionID, rowID) => {
-      if (index < 0) {
-        index = data.length - 1;
-      }
-      const obj = data[index--];
+  componentDidMount () {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(data),
+      isLoading: false,
+    })
+  }
+  // static propTypes = {
+  //   dispatch: PropTypes.func
+  // }
+  renderList() {
+    const row = (dataRow) => {
       return (
-        <div key={rowID} style={{ padding: '0 15px' }}>
-          <div
-            style={{
-              lineHeight: '50px',
-              color: '#888',
-              fontSize: 18,
-              borderBottom: '1px solid #F6F6F6',
-            }}
-          >{obj.title}</div>
-          <div style={{ display: 'flex', padding: '15px 0' }}>
-            <img style={{ height: '64px', marginRight: '15px' }} src={obj.img} alt="" />
-            <div style={{ lineHeight: 1 }}>
-              <div style={{ marginBottom: '8px', fontWeight: 'bold' }}>{obj.des}</div>
-              <div><span style={{ fontSize: '30px', color: '#FF6E27' }}>{rowID}</span>¥</div>
+        <div className="bookList">
+            <div className="book">
+                <img src={dataRow.img} alt=""/>
             </div>
-          </div>
+            <div className="describe">
+                <p className="bookTitle">{dataRow.title}</p>
+                <p>{dataRow.des}</p>
+            </div>
         </div>
-      );
-    };
+      )
+    }
     return (
       <ListView
-        ref={el => this.lv = el}
-        dataSource={this.state.dataSource}
-        renderHeader={() => <span>header</span>}
-        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-          {this.state.isLoading ? 'Loading...' : 'Loaded'}
+        style={{
+          height: document.documentElement.clientHeight,
+          overflow: 'auto',
+        }}
+        dataSource={this.state.dataSource} // 渲染的数据源
+        renderFooter={() => (<div style={{padding: 30, textAlign: 'center'}}>
+          {this.state.isLoading ? '加载中' : '加载完成'}
         </div>)}
-        renderRow={row}
-        renderSeparator={separator}
-        className="am-list"
-        pageSize={4}
-        useBodyScroll
-        onScroll={() => { console.log('scroll'); }}
-        scrollRenderAheadDistance={500}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={200}
+        renderRow={row} // 单条数据
+        pageSize={4} // 每次渲染的行数
+        scrollRenderAheadDistance={500} // 当一个行接近屏幕范围多少像素之内的时候，就开始渲染这一行
+        scrollEventThrottle={20} // 控制在滚动过程中，scroll事件被调用的频率
+        onEndReachedThreshold={10} // 调用onEndReached之前的临界值，单位是像素
+                onEndReached={() => {}} // 上拉加载事件
       />
-    );
+    )
+  }
+  render () {
+    return (
+      <div
+        className='bargain-container'
+      >
+        {data.length === 0 ? (<h1>暂时没有书籍</h1>) : this.renderList()}
+      </div>
+    )
   }
 }
-
 export default Listview

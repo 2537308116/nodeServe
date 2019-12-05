@@ -10,7 +10,7 @@ class Index extends React.Component{
     }
     render() {
         return (
-          <div style={{'padding-top':' 50px'}}>
+          <div style={{'paddingTop':' 50px'}}>
               <Loop/>
               <BookList/>
           </div>

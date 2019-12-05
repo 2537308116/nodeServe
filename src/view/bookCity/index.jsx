@@ -16,7 +16,7 @@ class Index extends React.Component{
     
     render() {
         return (
-          <div style={{'padding-top':' 50px'}}>
+          <div style={{'paddingTop':' 50px'}}>
               <SearchBar placeholder="搜索精彩书籍" onChange={this.onChange} maxLength={8} />
               <ListView/>
           </div>
