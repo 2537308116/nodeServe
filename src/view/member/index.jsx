@@ -4,7 +4,7 @@ class Member extends React.Component{
     
     render() {
         return (
-          <div style={{'padding-top':' 50px'}}>
+          <div style={{'paddingTop':' 50px'}}>
              22
           </div>
         );

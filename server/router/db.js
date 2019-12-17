@@ -1,13 +1,13 @@
 var MongoClient = require("mongodb").MongoClient;
 
-var url = "mongodb://localhost:27017/itcast";
+var url = "mongodb://localhost:27017/test";
 
 /**
  * 打开数据库
  * @param callback  回调函数
  */
 function clientMongo(callback){
-    MongoClient.connect(url,function(err,client){
+    MongoClient.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true },function(err,client){
         callback(err,client);
     });
 }
@@ -42,9 +42,36 @@ exports.findMongo = function(mongoTable,paramJSON,D,C){
             callback(err,null);
             return;
         }
-       var db = client.db("itcast");
+       var db = client.db("test");
         db.collection(mongoTable).find(paramJSON).skip(skipnumber).limit(limitnumber).sort(sort).toArray(function(err,result){
             callback(err,result);
+            client.close();
+        })
+    })
+}
+
+
+/**
+ * 修改数据
+ * @param mongoTable  集合名称
+ * @param paramJSON   要修改的原数据的值
+ * @param param    要修改成的数据的值
+ * @param callback    回调函数
+ */
+exports.updateMongo = function(mongoTable,paramJSON,param,callback){
+    var argm = arguments;
+    //打开数据库
+    clientMongo(function(err,client){
+       
+        if(err){
+            callback(err,null);
+            return;
+        }
+       var db = client.db("test");
+        db.collection(mongoTable).updateMany(paramJSON,{$set:param},function(err,data){
+            if(err) throw err;
+            callback(err,data)
+            console.log("数据更新成功")
             client.close();
         })
     })
