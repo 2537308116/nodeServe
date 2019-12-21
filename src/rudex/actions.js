@@ -9,9 +9,12 @@ export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
 /*
  * 其它的常量
  */
+const GET_INFO = {
+    num:11
+}
 
 export const VisibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
+  GET_INFO: GET_INFO,
   SHOW_COMPLETED: 'SHOW_COMPLETED',
   SHOW_ACTIVE: 'SHOW_ACTIVE'
 }

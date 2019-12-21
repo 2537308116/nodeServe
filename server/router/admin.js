@@ -4,9 +4,11 @@ const router = express.Router();
 
 const login = require("./admin/login");
 const product = require("./admin/product");
+const getList = require("./admin/getList");
 
 router.use("/login",login);
 router.use("/product",product);
+router.use("/book",getList);
 
 
 module.exports = router;

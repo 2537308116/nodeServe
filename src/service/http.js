@@ -31,3 +31,10 @@ let baseUrl='http://127.0.0.1:8824'
  * @returns {res.data}
  */
 export const requestLogin = params => { return axios.post(`${baseUrl}/login`, params).then(res => res.data); }; //登录接口 
+
+
+ /**
+ * 登录请求
+ * @returns {res.data}
+ */
+export const getBookList = params => { return axios.get(`${baseUrl}/book/getList`, params).then(res => res.data); }; //登录接口 

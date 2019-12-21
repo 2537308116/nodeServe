@@ -5,9 +5,11 @@ import {
   SET_VISIBILITY_FILTER,
   VisibilityFilters
 } from './actions'
-const { SHOW_ALL } = VisibilityFilters
+const { GET_INFO } = VisibilityFilters
 
-function visibilityFilter(state = SHOW_ALL, action) {
+
+function visibilityFilter(state = GET_INFO, action) {
+  console.log(state)
   switch (action.type) {
     case SET_VISIBILITY_FILTER:
       return action.filter

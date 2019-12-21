@@ -28,10 +28,4 @@ router.post("/",function (req,res) {
     })
 });
 
-
-
-
-router.get("doLogin",function (req,res) {
-    res.send("登录1页面")
-});
 module.exports = router;
