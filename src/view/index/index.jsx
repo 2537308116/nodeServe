@@ -21,8 +21,6 @@ class Index extends React.Component{
                 })
             }
         })
-        console.log(this.state.list)
-
     }
     render() {
         return (

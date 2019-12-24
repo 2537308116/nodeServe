@@ -9,7 +9,6 @@ const { GET_INFO } = VisibilityFilters
 
 
 function visibilityFilter(state = GET_INFO, action) {
-  console.log(state)
   switch (action.type) {
     case SET_VISIBILITY_FILTER:
       return action.filter
