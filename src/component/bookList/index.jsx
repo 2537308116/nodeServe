@@ -12,7 +12,7 @@ import {withRouter} from "react-router-dom"
     // console.log(props)
     function toBookList(href){
       let url = href+'1.html'
-      props.history.push({ pathname : '/bookChapter/'+url})
+      props.history.push({ pathname : '/bookChapter?url='+url})
     }
     return (
       <div>
